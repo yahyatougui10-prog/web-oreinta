@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web d'Orientation | Tracez Votre Destin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            overflow-x: hidden;
+            background-color: #0a0a0c;
+            color: #e2e8f0;
+            font-family: 'Inter', sans-serif;
+        }
+        h1, h2 {
+            font-family: 'Playfair Display', serif;
+        }
+        #bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+        .intro-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, #1a1a2e 0%, #0a0a0c 100%);
+            z-index: 100;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        .web-line {
+            position: absolute;
+            background: linear-gradient(to right, transparent, #6b21a8, transparent);
+            height: 2px;
+            width: 0;
+            opacity: 0.6;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+        .glass-card:hover {
+            border-color: #f472b6;
+            box-shadow: 0 0 20px rgba(244, 114, 182, 0.2);
+            transform: translateY(-5px);
+        }
+        .gradient-text {
+            background: linear-gradient(45deg, #f472b6, #6b21a8, #0d9488);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        section {
+            min-height: 100vh;
+            padding: 100px 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Intro Animation Overlay -->
+    <div class="intro-overlay" id="intro">
+        <div id="web-container" class="absolute inset-0 pointer-events-none"></div>
+        <h1 id="intro-text" class="text-5xl md:text-7xl font-bold text-center z-10 opacity-0">
+            Tissez Votre <span class="gradient-text">Avenir</span>
+        </h1>
+        <div id="intro-subtext" class="text-lg md:text-xl mt-4 opacity-0 text-gray-400 italic">
+            L'architecture de votre réussite commence ici...
+        </div>
+    </div>
+
+    <canvas id="bg-canvas"></canvas>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full p-6 flex justify-between items-center z-50">
+        <div class="text-2xl font-bold gradient-text">ORIEN-WEB</div>
+        <div class="hidden md:flex space-x-8 text-sm font-medium uppercase tracking-widest">
+            <a href="#home" class="hover:text-pink-400 transition">Accueil</a>
+            <a href="#academic" class="hover:text-pink-400 transition">Académique</a>
+            <a href="#after" class="hover:text-pink-400 transition">Après-Études</a>
+            <a href="#network" class="hover:text-pink-400 transition">Réseautage</a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Hero Section -->
+        <section id="home">
+            <div class="max-w-4xl text-center space-y-6">
+                <h1 class="text-6xl md:text-8xl font-bold leading-tight">
+                    L'Orientation est un <br><span class="gradient-text">Art de Connexion</span>
+                </h1>
+                <p class="text-xl text-gray-400 max-w-2xl mx-auto">
+                    Comme une toile complexe, votre parcours scolaire et professionnel s'entrelace. Nous vous aidons à identifier les fils conducteurs pour bâtir une carrière solide et épanouie.
+                </p>
+                <div class="pt-8">
+                    <a href="#academic" class="px-8 py-4 bg-gradient-to-r from-purple-700 to-pink-600 rounded-full font-bold hover:scale-105 transition-transform inline-block">Explorer le Web</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Academic Section -->
+        <section id="academic">
+            <div class="max-w-6xl w-full grid md:grid-cols-2 gap-12 items-center">
+                <div class="relative group">
+                    <img src="/home/murray/Downloads/wyxina-spider-web-8159315_1920.jpg" alt="Academic Web" class="rounded-3xl shadow-2xl grayscale hover:grayscale-0 transition duration-700">
+                    <div class="absolute -bottom-6 -right-6 w-48 h-48 bg-purple-600/20 blur-3xl rounded-full"></div>
+                </div>
+                <div class="space-y-6">
+                    <h2 class="text-4xl md:text-6xl font-bold">Le Web <br><span class="text-purple-500">Académique</span></h2>
+                    <p class="text-gray-400 text-lg">
+                        La phase d'apprentissage est le centre de votre toile. C'est ici que vous forgez vos compétences et définissez vos aspirations.
+                    </p>
+                    <div class="grid gap-4">
+                        <div class="glass-card p-4 rounded-xl">
+                            <h3 class="font-bold text-pink-400">Choix des Filières</h3>
+                            <p class="text-sm text-gray-300">Aligner vos passions avec les réalités du marché.</p>
+                        </div>
+                        <div class="glass-card p-4 rounded-xl">
+                            <h3 class="font-bold text-pink-400">Spécialisations</h3>
+                            <p class="text-sm text-gray-300">Approfondir un domaine pour devenir indispensable.</p>
+                        </div>
+                        <div class="glass-card p-4 rounded-xl">
+                            <h3 class="font-bold text-pink-400">Certifications</h3>
+                            <p class="text-sm text-gray-300">Ajouter des points d'ancrage solides à votre CV.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Post-Academic Section -->
+        <section id="after" class="bg-gradient-to-b from-transparent via-purple-900/10 to-transparent">
+            <div class="max-w-6xl w-full grid md:grid-cols-2 gap-12 items-center">
+                <div class="order-2 md:order-1 space-y-6">
+                    <h2 class="text-4xl md:text-6xl font-bold">L'Après-Scolaire <br><span class="text-teal-500">Horizons Ouverts</span></h2>
+                    <p class="text-gray-400 text-lg">
+                        Le diplôme n'est qu'un point de départ. Le véritable défi est d'étendre votre toile vers le monde professionnel.
+                    </p>
+                    <div class="grid gap-4">
+                        <div class="glass-card p-4 rounded-xl">
+                            <h3 class="font-bold text-teal-400">Premier Emploi</h3>
+                            <p class="text-sm text-gray-300">Transformer la théorie en impact concret.</p>
+                        </div>
+                        <div class="glass-card p-4 rounded-xl">
+                            <h3 class="font-bold text-teal-400">Entrepreneuriat</h3>
+                            <p class="text-sm text-gray-300">Tisser votre propre réseau et créer votre structure.</p>
+                        </div>
+                        <div class="glass-card p-4 rounded-xl">
+                            <h3 class="font-bold text-teal-400">Master & Doctorat</h3>
+                            <p class="text-sm text-gray-300">Pousser les limites de la connaissance.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="order-1 md:order-2 relative group">
+                    <img src="/home/murray/Downloads/dawidsliwka-spider-web-5505311_1920.jpg" alt="Professional Web" class="rounded-3xl shadow-2xl grayscale hover:grayscale-0 transition duration-700">
+                    <div class="absolute -top-6 -left-6 w-48 h-48 bg-teal-600/20 blur-3xl rounded-full"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Network Section -->
+        <section id="network">
+            <div class="max-w-4xl text-center space-y-8">
+                <h2 class="text-5xl md:text-7xl font-bold">Connecter les <span class="text-pink-500">Fils</span></h2>
+                <div class="relative inline-block">
+                    <img src="/home/murray/Downloads/publicdomainpictures-background-21472_1920.jpg" alt="Rose" class="w-64 h-64 object-cover rounded-full border-4 border-purple-600 shadow-2xl mx-auto mb-8">
+                    <div class="absolute inset-0 rounded-full border-2 border-dashed border-pink-500 animate-spin-slow"></div>
+                </div>
+                <p class="text-xl text-gray-400">
+                    L'orientation n'est pas un chemin linéaire, c'est un réseau. Chaque rencontre, chaque erreur, et chaque succès est un fil qui renforce votre structure.
+                </p>
+                <div class="flex justify-center gap-4">
+                    <button class="px-6 py-3 glass-card rounded-lg font-semibold hover:bg-white/10 transition">Prendre RDV</button>
+                    <button class="px-6 py-3 bg-white text-black rounded-lg font-semibold hover:bg-gray-200 transition">Guide Gratuit</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="p-12 text-center text-gray-500 text-sm border-t border-white/10">
+        &copy; 2026 ORIEN-WEB. Tissez votre destin.
+    </footer>
+
+    <script src="/home/murray/orientation-site/js/main.js"></script>
+</body>
+</html>

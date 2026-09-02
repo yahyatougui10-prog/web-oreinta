@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ORIEN-WEB | Forgez Votre Destin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700;1,900&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body class="bg-black text-white overflow-x-hidden">
+    <!-- Custom Cursor -->
+    <div class="cursor-dot"></div>
+    <div class="cursor-ring"></div>
+
+    <!-- Intro Overlay -->
+    <div id="intro" class="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-black text-center p-4">
+        <div id="web-lines-container" class="absolute inset-0 pointer-events-none"></div>
+        <h1 id="intro-text" class="text-5xl md:text-8xl font-black italic opacity-0 z-10">
+            <span class="text-white">TISSEZ</span> <span class="gradient-text">VOTRE</span> <span class="text-white">DESTIN</span>
+        </h1>
+        <p id="intro-sub" class="text-gray-400 mt-4 opacity-0 z-10 tracking-widest uppercase text-sm">L'architecture d'une carrière réussie</p>
+    </div>
+
+    <!-- 3D BG Canvas -->
+    <canvas id="bg-canvas" class="fixed inset-0 -z-10"></canvas>
+
+    <!-- Glass Navbar -->
+    <nav class="fixed top-0 w-full z-50 px-6 py-4 transition-all duration-500" id="navbar">
+        <div class="max-w-7xl mx-auto flex justify-between items-center transition-all duration-500" id="nav-container">
+            <div class="text-2xl font-black tracking-tighter gradient-text">ORIEN-WEB</div>
+            <div class="hidden md:flex gap-8 text-xs font-bold uppercase tracking-widest">
+                <a href="#home" class="nav-link">Accueil</a>
+                <a href="#academic" class="nav-link">L'Apprentissage</a>
+                <a href="#future" class="nav-link">Le Futur</a>
+                <a href="#contact" class="nav-link">Contact</a>
+            </div>
+            <button class="md:hidden text-white" id="menu-toggle">☰</button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="relative h-screen flex items-center justify-center overflow-hidden">
+        <div class="absolute inset-0 z-0">
+            <div class="bg-image bg-1 opacity-40"></div>
+            <div class="overlay-gradient"></div>
+        </div>
+        <div class="relative z-10 text-center px-4 max-w-6xl">
+            <h1 class="text-7xl md:text-9xl font-black leading-none mb-6 reveal-text">
+                L'ORIENTATION EST UN <br> <span class="gradient-text italic">RÉSEAU</span>
+            </h1>
+            <p class="text-lg md:text-2xl text-gray-300 font-light max-w-2xl mx-auto mb-10 opacity-80">
+                Comme une toile complexe, chaque choix est un fil. Nous vous aidons à bâtir une structure inébranlable pour votre carrière.
+            </p>
+            <a href="#academic" class="cta-button">Explorer le Web</a>
+        </div>
+        <!-- Scroll Indicator -->
+        <div class="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-50">
+            <span class="text-[10px] uppercase tracking-[0.3em] text-gray-400">Découvrir</span>
+            <div class="w-px h-12 bg-gradient-to-b from-white to-transparent animate-bounce"></div>
+        </div>
+    </section>
+
+    <!-- Academic Section -->
+    <section id="academic" class="relative min-h-screen flex items-center py-32 overflow-hidden">
+        <div class="absolute inset-0 z-0">
+            <div class="bg-image bg-2 opacity-30"></div>
+            <div class="overlay-gradient"></div>
+        </div>
+        <div class="container mx-auto px-6 relative z-10 grid lg:grid-cols-2 gap-16 items-center">
+            <div class="glass-panel p-8 md:p-12 rounded-3xl reveal-left">
+                <h2 class="text-4xl md:text-6xl font-black mb-6 leading-tight">Le Web <span class="text-purple-500 italic">Académique</span></h2>
+                <p class="text-gray-300 text-lg mb-8">La phase d'apprentissage est le noyau. C'est ici que vous ancrez vos compétences.</p>
+                <div class="space-y-4">
+                    <div class="feature-card">
+                        <span class="text-purple-400 font-bold mr-2">01.</span> Choix des Filières
+                    </div>
+                    <div class="feature-card">
+                        <span class="text-purple-400 font-bold mr-2">02.</span> Spécialisations Stratégiques
+                    </div>
+                    <div class="feature-card">
+                        <span class="text-purple-400 font-bold mr-2">03.</span> Certifications d'Elite
+                    </div>
+                </div>
+            </div>
+            <div class="hidden lg:block relative reveal-right">
+                <div class="web-visual-container">
+                    <img src="/static/images/bg3.jpg" class="rounded-3xl shadow-2xl rotate-3 hover:rotate-0 transition-transform duration-700">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Future Section -->
+    <section id="future" class="relative min-h-screen flex items-center py-32 overflow-hidden">
+        <div class="absolute inset-0 z-0">
+            <div class="bg-image bg-3 opacity-30"></div>
+            <div class="overlay-gradient"></div>
+        </div>
+        <div class="container mx-auto px-6 relative z-10 grid lg:grid-cols-2 gap-16 items-center">
+            <div class="hidden lg:block relative reveal-left">
+                <div class="web-visual-container">
+                    <img src="/static/images/bg2.jpg" class="rounded-3xl shadow-2xl -rotate-3 hover:rotate-0 transition-transform duration-700">
+                </div>
+            </div>
+            <div class="glass-panel p-8 md:p-12 rounded-3xl reveal-right">
+                <h2 class="text-4xl md:text-6xl font-black mb-6 leading-tight">L'Après-Scolaire <br><span class="text-teal-400 italic">Horizons</span></h2>
+                <p class="text-gray-300 text-lg mb-8">Le diplôme est un point d'appui. Le défi est maintenant d'étendre votre toile vers le marché.</p>
+                <div class="space-y-4">
+                    <div class="feature-card">
+                        <span class="text-teal-400 font-bold mr-2">01.</span> Intégration Professionnelle
+                    </div>
+                    <div class="feature-card">
+                        <span class="text-teal-400 font-bold mr-2">02.</span> Entrepreneuriat & Vision
+                    </div>
+                    <div class="feature-card">
+                        <span class="text-teal-400 font-bold mr-2">03.</span> Networking de Haut Niveau
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="relative min-h-screen flex items-center justify-center py-32">
+        <div class="absolute inset-0 z-0">
+            <div class="bg-image bg-1 opacity-20"></div>
+            <div class="overlay-gradient"></div>
+        </div>
+        <div class="container mx-auto px-6 relative z-10 max-w-3xl text-center">
+            <h2 class="text-5xl md:text-7xl font-black mb-12">Tissez Votre <span class="gradient-text italic">Lien</span></h2>
+            <form id="contact-form" class="glass-panel p-8 md:p-12 rounded-3xl text-left space-y-6">
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="input-group">
+                        <label>Nom complet</label>
+                        <input type="text" name="name" required placeholder="Jean Dupont">
+                    </div>
+                    <div class="input-group">
+                        <label>Email</label>
+                        <input type="email" name="email" required placeholder="jean@exemple.com">
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label>Votre projet ou question</label>
+                    <textarea name="message" rows="4" required placeholder="Décrivez votre ambition..."></textarea>
+                </div>
+                <button type="submit" class="cta-button w-full py-4">Envoyer la Demande</button>
+            </form>
+            <div id="form-status" class="mt-6 hidden font-bold text-teal-400 animate-pulse"></div>
+        </div>
+    </section>
+
+    <footer class="relative z-10 py-12 text-center text-gray-500 text-xs tracking-widest uppercase">
+        &copy; 2026 ORIEN-WEB. Architectes de Carrières.
+    </footer>
+
+    <script src="/static/js/main.js"></script>
+</body>
+</html>

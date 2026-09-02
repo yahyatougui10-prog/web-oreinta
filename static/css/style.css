@@ -1,0 +1,187 @@
+:root {
+    --primary: #8B5CF6;
+    --secondary: #14B8A6;
+    --accent: #F472B6;
+    --bg-dark: #020204;
+    --glass: rgba(255, 255, 255, 0.03);
+    --glass-border: linear-gradient(135deg, rgba(255,255,255,0.15), transparent);
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-dark);
+    scroll-behavior: smooth;
+}
+
+h1, h2, h3 {
+    font-family: 'Playfair Display', serif;
+}
+
+.gradient-text {
+    background: linear-gradient(to right, var(--primary), var(--accent), var(--secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* --- Background Images --- */
+.bg-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    transition: transform 0.8s ease-out;
+}
+
+.bg-1 { background-image: url('/static/images/bg1.jpg'); }
+.bg-2 { background-image: url('/static/images/bg2.jpg'); }
+.bg-3 { background-image: url('/static/images/bg3.jpg'); }
+
+.overlay-gradient {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at center, transparent 20%, var(--bg-dark) 90%);
+}
+
+/* --- UI Components --- */
+.glass-panel {
+    background: var(--glass);
+    backdrop-filter: blur(30px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7), inset 0 0 20px rgba(255,255,255,0.05);
+    position: relative;
+    overflow: hidden;
+}
+
+/* SVG Noise Overlay for Glass */
+.glass-panel::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none;
+    opacity: 0.03;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+.feature-card {
+    background: rgba(255, 255, 255, 0.03);
+    padding: 1rem 1.5rem;
+    border-radius: 1rem;
+    border-left: 4px solid var(--primary);
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.feature-card:hover {
+    background: rgba(255, 255, 255, 0.08);
+    transform: translateX(10px);
+    border-left-color: var(--accent);
+}
+
+.cta-button {
+    background: linear-gradient(45deg, var(--primary), var(--accent));
+    color: white;
+    padding: 1rem 2.5rem;
+    border-radius: 9999px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+    display: inline-block;
+    box-shadow: 0 10px 20px rgba(139, 92, 246, 0.3);
+}
+
+.cta-button:hover {
+    transform: scale(1.05) translateY(-2px);
+    box-shadow: 0 15px 30px rgba(139, 92, 246, 0.5);
+}
+
+.input-group label {
+    display: block;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    color: #94a3b8;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+}
+
+.input-group input, .input-group textarea {
+    width: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 0.75rem;
+    padding: 0.75rem 1rem;
+    color: white;
+    transition: all 0.3s ease;
+}
+
+.input-group input:focus, .input-group textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 15px rgba(139, 92, 246, 0.3);
+}
+
+.nav-link {
+    position: relative;
+    transition: color 0.3s ease;
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--primary);
+    transition: width 0.3s ease;
+}
+
+.nav-link:hover::after {
+    width: 100%;
+}
+
+/* --- Intro Lines --- */
+.web-line {
+    position: absolute;
+    background: linear-gradient(to right, transparent, var(--primary), transparent);
+    height: 1px;
+    width: 0;
+    opacity: 0.4;
+}
+
+/* Animations */
+@keyframes spin-slow {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+.animate-spin-slow {
+    animation: spin-slow 20s linear infinite;
+}
+
+/* Custom Cursor */
+.cursor-dot {
+    width: 8px;
+    height: 8px;
+    background: white;
+    position: fixed;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 10000;
+    transition: transform 0.1s ease;
+}
+
+.cursor-ring {
+    width: 40px;
+    height: 40px;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    position: fixed;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transition: all 0.3s ease;
+}
