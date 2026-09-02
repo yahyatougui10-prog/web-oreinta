@@ -10,11 +10,12 @@ import os
 app = FastAPI()
 
 # Mount static files and templates
-# Use a more robust path resolution for Vercel
+# Vercel serves the 'public' folder automatically,
+# but we keep the mount for local development.
 current_dir = os.path.dirname(os.path.abspath(__file__))
 root_dir = os.path.abspath(os.path.join(current_dir, ".."))
 
-app.mount("/static", StaticFiles(directory=os.path.join(root_dir, "static")), name="static")
+app.mount("/static", StaticFiles(directory=os.path.join(root_dir, "public", "static")), name="static")
 templates = Jinja2Templates(directory=os.path.join(root_dir, "templates"))
 
 DATA_FILE = os.path.join(root_dir, "requests.json")
