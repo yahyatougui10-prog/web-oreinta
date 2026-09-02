@@ -10,15 +10,22 @@ import os
 app = FastAPI()
 
 # Mount static files and templates
-# Vercel serves the 'public' folder automatically,
-# but we keep the mount for local development.
-current_dir = os.path.dirname(os.path.abspath(__file__))
-root_dir = os.path.abspath(os.path.join(current_dir, ".."))
+try:
+    # Try relative to root first (Vercel)
+    app.mount("/static", StaticFiles(directory="public/static"), name="static")
+    templates = Jinja2Templates(directory="templates")
+    DATA_FILE = "requests.json"
+except Exception:
+    # Fallback to absolute paths (Local Dev)
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    root_dir = os.path.abspath(os.path.join(current_dir, ".."))
+    app.mount("/static", StaticFiles(directory=os.path.join(root_dir, "public", "static")), name="static")
+    templates = Jinja2Templates(directory=os.path.join(root_dir, "templates"))
+    DATA_FILE = os.path.join(root_dir, "requests.json")
 
-app.mount("/static", StaticFiles(directory=os.path.join(root_dir, "public", "static")), name="static")
-templates = Jinja2Templates(directory=os.path.join(root_dir, "templates"))
-
-DATA_FILE = os.path.join(root_dir, "requests.json")
+# Override DATA_FILE for Vercel to avoid read-only filesystem crash
+if os.environ.get("VERCEL"):
+    DATA_FILE = "/tmp/requests.json"
 
 @app.get("/", response_class=HTMLResponse)
 async def read_root(request: Request):
