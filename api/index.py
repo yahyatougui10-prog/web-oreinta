@@ -59,10 +59,14 @@ else:
     DATA_FILE = os.path.join(root_dir, "requests.json")
 
 @app.get("/", response_class=HTMLResponse)
+@app.get("/api/index", response_class=HTMLResponse)
 async def read_root(request: Request):
-    template = templates.env.get_template("index.html")
-    content = template.render({"request": request})
-    return HTMLResponse(content=content)
+    try:
+        template = templates.env.get_template("index.html")
+        content = template.render({"request": request})
+        return HTMLResponse(content=content)
+    except Exception as e:
+        return HTMLResponse(content=f"Template Error: {str(e)}", status_code=500)
 
 @app.post("/api/contact")
 async def contact_form(
