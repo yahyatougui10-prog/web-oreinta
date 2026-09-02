@@ -7,15 +7,17 @@ import os
 
 import os
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-
 app = FastAPI()
 
 # Mount static files and templates
-app.mount("/static", StaticFiles(directory=os.path.join(BASE_DIR, "..", "static")), name="static")
-templates = Jinja2Templates(directory=os.path.join(BASE_DIR, "..", "templates"))
+# Use a more robust path resolution for Vercel
+current_dir = os.path.dirname(os.path.abspath(__file__))
+root_dir = os.path.abspath(os.path.join(current_dir, ".."))
 
-DATA_FILE = os.path.join(BASE_DIR, "..", "requests.json")
+app.mount("/static", StaticFiles(directory=os.path.join(root_dir, "static")), name="static")
+templates = Jinja2Templates(directory=os.path.join(root_dir, "templates"))
+
+DATA_FILE = os.path.join(root_dir, "requests.json")
 
 @app.get("/", response_class=HTMLResponse)
 async def read_root(request: Request):
