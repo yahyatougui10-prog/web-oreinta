@@ -10,22 +10,53 @@ import os
 app = FastAPI()
 
 # Mount static files and templates
-try:
-    # Try relative to root first (Vercel)
-    app.mount("/static", StaticFiles(directory="public/static"), name="static")
-    templates = Jinja2Templates(directory="templates")
-    DATA_FILE = "requests.json"
-except Exception:
-    # Fallback to absolute paths (Local Dev)
-    current_dir = os.path.dirname(os.path.abspath(__file__))
-    root_dir = os.path.abspath(os.path.join(current_dir, ".."))
-    app.mount("/static", StaticFiles(directory=os.path.join(root_dir, "public", "static")), name="static")
-    templates = Jinja2Templates(directory=os.path.join(root_dir, "templates"))
-    DATA_FILE = os.path.join(root_dir, "requests.json")
+# Use highly resilient path resolution for Vercel and Local Dev
+current_dir = os.path.dirname(os.path.abspath(__file__))
+root_dir = os.path.abspath(os.path.join(current_dir, ".."))
 
-# Override DATA_FILE for Vercel to avoid read-only filesystem crash
+# Try several common Vercel path patterns
+static_paths = [
+    os.path.join(root_dir, "public", "static"),
+    os.path.join(root_dir, "static"),
+    "public/static",
+    "static"
+]
+
+static_dir = None
+for p in static_paths:
+    if os.path.exists(p):
+        static_dir = p
+        break
+
+if static_dir:
+    app.mount("/static", StaticFiles(directory=static_dir), name="static")
+else:
+    # Prevent crash if static folder is missing, but log it
+    app.mount("/static", StaticFiles(directory=root_dir), name="static")
+
+template_paths = [
+    os.path.join(root_dir, "templates"),
+    "templates"
+]
+
+template_dir = None
+for p in template_paths:
+    if os.path.exists(p):
+        template_dir = p
+        break
+
+if template_dir:
+    templates = Jinja2Templates(directory=template_dir)
+else:
+    # Create a dummy directory to prevent Jinja2 from crashing
+    os.makedirs(os.path.join(root_dir, "templates"), exist_ok=True)
+    templates = Jinja2Templates(directory=os.path.join(root_dir, "templates"))
+
+# Handle DATA_FILE for Vercel read-only FS
 if os.environ.get("VERCEL"):
     DATA_FILE = "/tmp/requests.json"
+else:
+    DATA_FILE = os.path.join(root_dir, "requests.json")
 
 @app.get("/", response_class=HTMLResponse)
 async def read_root(request: Request):
